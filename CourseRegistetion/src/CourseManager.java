@@ -6,6 +6,13 @@ import java.util.List;
 public class CourseManager {
     private final List<Course> courses = new ArrayList<>();
 
+    public Course getCourseById(int id) {
+        for (Course c : courses) {
+            if (c.getId() == id)
+                return c;
+        }
+        return null;
+    }
     public void addCourse(Course newCourse) {
         for (Course course : courses) {
             if (newCourse.getId() == course.getId()) {
@@ -22,14 +29,13 @@ public class CourseManager {
         courses.remove(course);
     }
 
-    public boolean registerCourse(Course course) {
+    public void registerCourse(Course course) {
         if (course.getEnrolled() < course.getCapacity()) {
             System.out.println("Student has been registered");
             course.addStudentToCourse();
-            return true;
+            return;
         }
         System.out.println("The course is currently full");
-        return false;
     }
 
     public boolean canRegister(Course course) {

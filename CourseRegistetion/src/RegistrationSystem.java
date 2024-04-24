@@ -1,6 +1,6 @@
 import data.Course;
-import data.Student;
 import data.Participant;
+import data.Student;
 
 import java.util.Scanner;
 
@@ -21,6 +21,18 @@ public class RegistrationSystem {
         return instance;
     }
 
+    public void addParticipant(Participant participant) {
+        participantManager.addParticipant(participant);
+    }
+
+    public void removeParticipant(Participant participant) {
+        participantManager.removeParticipant(participant);
+    }
+
+    public void removeAllParticipants() {
+        participantManager.removeAllParticipants();
+    }
+
     public void createNewCourse(Participant creator, String type, int id, String name, int capacity) {
         if (!creator.canCreateCourse()) {
             System.out.println("Unauthorized attempt to create a course");
@@ -33,25 +45,31 @@ public class RegistrationSystem {
         }
     }
 
-
-    public void registerToCourse(int userId, Course course) {
-        try {
-            Student participant = (Student) participantManager.getParticipant(userId);
-            if (participant != null) {
-                if (!courseManager.canRegister(course)) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.println("Would you like to receive an update if a place becomes available in the course?");
-                    System.out.print("Enter your choice [y/n]: ");
-                    String choice = input.nextLine();
-                    if (choice.equals("y")) {
-                        course.attach(participant);
-                    }
-                } else {
-                    courseManager.registerCourse(course);
-                }
+    public void registerToCourse(Student student, Course course) {
+        if (!participantManager.isLoggedIn(student)) {
+            System.out.println("The student must log in before taking any action");
+            return;
+        }
+        if (!courseManager.canRegister(course)) {
+            Scanner input = new Scanner(System.in);
+            System.out.println("Would you like to receive an update if a space becomes available?");
+            System.out.print("Enter your choice [y/n]: ");
+            String choice = input.nextLine();
+            if (choice.equals("y")) {
+                course.attach(student);
             }
-        } catch (Exception e) {
-            System.out.println("The participant has not logged in to the system or maybe the provided id isn't belong to student");
+            return;
+        }
+
+        courseManager.registerCourse(course);
+    }
+
+    public void registerToCourseById(Student student, int courseId) {
+        Course course = courseManager.getCourseById(courseId);
+        if (course != null) {
+            registerToCourse(student, course);
+        } else {
+            System.out.println("Course id is not exist");
         }
     }
 }

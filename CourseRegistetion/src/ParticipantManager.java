@@ -1,10 +1,11 @@
 import data.Participant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParticipantManager {
     public static final int MAXIMUM_PARTICIPANTS = 100;
-    private List<Participant> participants;
+    private final List<Participant> participants = new ArrayList<>();
 
     public void addParticipant(Participant participant) {
         if (participants.size() < MAXIMUM_PARTICIPANTS) {
@@ -20,11 +21,23 @@ public class ParticipantManager {
         participants.remove(participant);
     }
 
+    public void removeAllParticipants() {
+        participants.clear();
+    }
+
     public Participant getParticipant(int id) {
         for (Participant participant : participants) {
             if (participant.getId() == id)
                 return participant;
         }
         return null;
+    }
+
+    public boolean isLoggedIn(Participant participant) {
+        for (Participant p : participants) {
+            if (p == participant)
+                return true;
+        }
+        return false;
     }
 }
