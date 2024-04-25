@@ -39,6 +39,9 @@ public class Course implements Subject {
     public void addStudentToCourse() {
         enrolled++;
     }
+    public void removeStudentToCourse() {
+        enrolled--;
+    }
 
     public void removeStudentFromCourse() {
         enrolled--;
@@ -57,9 +60,9 @@ public class Course implements Subject {
     }
 
     @Override
-    public void notifyObservers(Course course) {
+    public void notifyObservers() {
         for (Observer observer : observers) {
-            observer.update(course);
+            observer.update(this);
         }
     }
 

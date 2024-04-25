@@ -1,4 +1,5 @@
 import data.Course;
+import data.Student;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,13 @@ public class CourseManager {
             return;
         }
         System.out.println("The course is currently full");
+    }
+
+    public void unregisterCourse(Course course) {
+        if (course.getEnrolled() > 0) {
+            course.removeStudentFromCourse();
+            System.out.println("Student has been unregistered");
+        }
     }
 
     public boolean canRegister(Course course) {

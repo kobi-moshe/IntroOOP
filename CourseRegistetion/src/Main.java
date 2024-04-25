@@ -11,6 +11,7 @@ public class Main {
 
         system.removeAllParticipants();
     }
+
     // Check if the system can create duplicate courses
     // Courses are different by id! the rest can be identical
     public static void test2(RegistrationSystem system) {
@@ -28,10 +29,28 @@ public class Main {
         system.registerToCourseById(student, 0);
     }
 
+    // Check updates about course
+    public static void test4(RegistrationSystem system) {
+        Lecturer lecturer = new Lecturer(1, "Yossi");
+        system.createNewCourse(lecturer, "Seminar", 1, "OOP", 1);
+
+        Student student = new Student(1, "Miki");
+        Student student1 = new Student(1, "Shon");
+        system.addParticipant(student);
+        system.addParticipant(student1);
+
+        system.registerToCourseById(student, 1);
+        system.registerToCourseById(student1, 1);
+
+        system.unregisterToCourseById(student, 1);
+        system.registerToCourseById(student1, 1);
+    }
+
     public static void main(String[] args) {
         RegistrationSystem system = RegistrationSystem.getInstance();
-        test1(system);
-        test2(system);
-        test3(system);
+//        test1(system);
+//        test2(system);
+//        test3(system);
+        test4(system);
     }
 }

@@ -44,7 +44,15 @@ public class RegistrationSystem {
             courseManager.addCourse(newCourse);
         }
     }
-
+    public void unregisterToCourse(Student student, Course course) {
+        courseManager.unregisterCourse(course);
+        course.detach(student);
+        course.notifyObservers();
+    }
+    public void unregisterToCourseById(Student student, int courseId) {
+        Course course = courseManager.getCourseById(courseId);
+        unregisterToCourse(student, course);
+    }
     public void registerToCourse(Student student, Course course) {
         if (!participantManager.isLoggedIn(student)) {
             System.out.println("The student must log in before taking any action");
